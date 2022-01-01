@@ -1,6 +1,9 @@
 @extends('layouts.front')
 
 @section('content')
+    <div class ="title">
+        <p>課題を表示します</p>
+    </div>
     <div class ="container">
         <hr color=　"#c0c0c0">
         @if(!is_null($headline))
