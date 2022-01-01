@@ -1,8 +1,14 @@
 @extends('layouts.front')
 
 @section('content')
-    <div class ="title">
-        <p>課題を表示します</p>
+    <div class ="col-md-6 mx-auto">
+        <div class ="title">
+            <p>課題を表示します</p>
+        </div>
+        
+        <div class="profile link">
+            <a href ="{{ action('ProfileController@index') }}" role="button" class="btn btn-primary">プロフィール画面へ</a>
+        </div>
     </div>
     <div class ="container">
         <hr color=　"#c0c0c0">
