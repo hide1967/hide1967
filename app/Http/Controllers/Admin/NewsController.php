@@ -30,23 +30,23 @@ class NewsController extends Controller
         $this->validate($request, News::$rules);
         
         $news = new News;//インスタンスの作成
-        $news_form = $request->all();//news_formの作成
+        $form = $request->all();//news_formの作成
         
         //フォームから画像が送信されてきたら、保存して、＄news->image_pathに画像のパスを保存する。
-        if(isset($news_form['image'])) {
-            $path = Storage::disk('s3')->putfile('/', $news_form['image'], 'public');
+        if(isset($form['image'])) {
+            $path = Storage::disk('s3')->putfile('/', $form['image'], 'public');
             $news->image_path = Storage::disk('s3')->url($path);
         } else {
             $news->image_path = null;
         }
         
         //フォームから送信されてきた_tokenを削除する
-        unset($news_form['_token']);
+        unset($form['_token']);
         //フォームから送信されてきたimageを削除する
-        unset($news_form['image']);
+        unset($form['image']);
         
         //データベースに保存する
-        $news->fill($news_form);
+        $news->fill($form);
         $news->save();
         
         
@@ -94,18 +94,18 @@ class NewsController extends Controller
         if($request->remove =='true'){
             $news_form['image_path'] =null;
         }elseif($request->file('image')){
-            $path = Storage::disk('s3')->putFile('/',$news_form['image'],'public');
+            $path = Storage::disk('s3')->putFile('/',$form['image'],'public');
             $news->image_path = Storage::disk('s3')->url($path);
         }else{
-            $news_form['image_path'] = $news->image_path;
+            $form['image_path'] = $news->image_path;
         }
-        unset($news_form['image']);
-        unset($news_form['remove']);
+        unset($form['image']);
+        unset($form['remove']);
         
-        unset($news_form['_token']);
+        unset($form['_token']);
         
         //該当するデータを上書きして保存する
-        $news->fill($news_form)->save();
+        $news->fill($form)->save();
         
         //HistoryModelに編集履歴を追加する
         $history = new History();
