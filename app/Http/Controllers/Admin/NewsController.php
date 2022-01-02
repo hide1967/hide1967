@@ -30,10 +30,10 @@ class NewsController extends Controller
         $this->validate($request, News::$rules);
         
         $news = new News;//インスタンスの作成
-        $form = $request->all();//news_formの作成
+        $news_form = $request->all();//news_formの作成
         
         //フォームから画像が送信されてきたら、保存して、＄news->image_pathに画像のパスを保存する。
-        if(isset($form['image'])) {
+        if(isset($news_form['image'])) {
             $path = Storage::disk('s3')->putfile('/', $news_form['image'], 'public');
             $news->image_path = Storage::disk('s3')->url($path);
         } else {
@@ -41,12 +41,12 @@ class NewsController extends Controller
         }
         
         //フォームから送信されてきた_tokenを削除する
-        unset($form['_token']);
+        unset($news_form['_token']);
         //フォームから送信されてきたimageを削除する
-        unset($form['image']);
+        unset($news_form['image']);
         
         //データベースに保存する
-        $news->fill($form);
+        $news->fill($news_form);
         $news->save();
         
         
