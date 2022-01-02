@@ -88,7 +88,7 @@ class NewsController extends Controller
         //newsmodelからデータを取得する
         $news = News::find($request->id);
         //送信されてきたフォームデータを格納する
-        $news_form = $request->all();
+        $form = $request->all();
         
         //画像を変更したときにエラーが発生しないようにする
         if($request->remove =='true'){
